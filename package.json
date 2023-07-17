@@ -1,5 +1,5 @@
 {
-  "name": "AwesomeProject",
+  "name": "awesomeproject",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -52,5 +52,10 @@
   },
   "engines": {
     "node": ">=16"
-  }
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
