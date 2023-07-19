@@ -66,6 +66,6 @@ npm run start
 
 - [`Frontend Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar-food-rn-fe)
 
-- [`Backend Recipe Food`](https://github.com/)
+- [`Backend Recipe Food`](https://github.com/kubi-codes/pijar_food_be_rn)
 
 - [`Demo Recipe Food`]()
