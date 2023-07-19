@@ -2,10 +2,10 @@
 <br>
 
 # Aplikasi Pijar Food FE
-Aplikasi Pijar food FE adalah aplikasi tutorial pembuatan berbagai macam makanan di padu dengan video tutorial dan bahan-bahan yang telah ditulis. Aplikasi ini menggunakan database postgresQL, Express JS untuk pembuatan backend dan menggunakan library React Native, React Native Navigation dan React Native Icons untuk pembuatannya frontend.
+The Pijar Food FE application is a tutorial application for creating various types of food, combined with video tutorials and written ingredients. This application utilizes the PostgreSQL database, Express JS for backend development, and utilizes the React Native library, React Native Navigation, and React Native Icons for frontend development.
 
 ## Instal
-Situs Resep Makanan dapat berjalan di lokal Anda, unduh repo ini dan buka menggunakan kode studio visual, dan jalankan terminal seperti di bawah ini.
+The Food Recipe website can run on your local machine. Please download this repository and open it using Visual Studio Code. Then, run the terminal with the following commands.
 ```sh
 cd pijar-food-re-fe
 npm i
@@ -13,21 +13,21 @@ npm run start
 ```
 
 ## Fitures Aplikasi Pijar Food FE
-- Tutorial berbagai masakan
-- Di bekali juga dengan video turtorial
-- halaman tambah resep
-- halaman resep
-- kirim pesan antar pengguna
+- Tutorials for various recipes
+- Equipped with video tutorials
+- Add recipe page
+- Recipe page
+- Send messages between users
 
 ## Tech
-- [HTML] - Hypertext Markup Language, yaitu bahasa markup standar untuk membuat dan menyusun halaman dan aplikasi web
-- [CSS] - Cascading Style Sheet yaitu digunakan untuk mengatur tampilan elemen yang tertulis dalam bahasa markup
-- [JavaScript] - pemrograman yang digunakan dalam pengembangan website agar lebih dinamis dan interaktif
-- [React JS](https://legacy.reactjs.org/) -  library JavaScript yang digunakan dalam proses pengembangan aplikasi web dinamis.
-- [React Native](https://reactnative.dev/) - framework yang digunakan untuk membuat mobile app di dua sistem operasi sekaligus, yaitu Android dan iOS.
+- [HTML] - Hypertext Markup Language (HTML) is the standard markup language for creating and structuring web pages and applications.
+- [CSS] - Cascading Style Sheets (CSS) is used to control the appearance of elements written in the markup language.
+- [JavaScript] - Programming languages used in website development to make them more dynamic and interactive.
+- [React JS](https://legacy.reactjs.org/) -  JavaScript library used in the development process of dynamic web applications.
+- [React Native](https://reactnative.dev/) - The framework used to create mobile apps on both Android and iOS operating systems simultaneously.
 - [React Native Icon](https://oblador.github.io/react-native-vector-icons/) 
-- [React Native Navigation](https://reactnavigation.org/) - perpustakaan populer untuk mengatur navigasi dalam aplikasi React Native. 
-- [React Native Paper](https://reactnativepaper.com/) - library open-source yang menyediakan komponen desain Material UI yang siap pakai untuk aplikasi React Native.
+- [React Native Navigation](https://reactnavigation.org/) - A popular library for managing navigation in React Native applications. 
+- [React Native Paper](https://reactnativepaper.com/) - An open-source library that provides ready-to-use Material UI design components for React Native applications.
 ## Screenshots
 <table>
  <tr>
