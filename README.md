@@ -54,6 +54,12 @@ npm run start
    <tr>
     <td>Add Recipe</td>
   </tr>
+   <tr>
+    <td><img width="400px" src="./screenshots/chat.png" border="0" alt="Add-recipe" /> </td>
+  </tr>
+   <tr>
+    <td>message</td>
+  </tr>
  <tr>
    <td><img width="400px" src="./screenshots/profile.png" border="0" alt="Profile" /> </td>
  </tr>
