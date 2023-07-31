@@ -7,7 +7,7 @@ The Pijar Food FE application is a tutorial application for creating various typ
 ## Instal
 The Food Recipe website can run on your local machine. Please download this repository and open it using Visual Studio Code. Then, run the terminal with the following commands.
 ```sh
-cd pijar-food-re-fe
+cd pijar-food-rn-fe
 npm i
 npm run start
 ```
@@ -54,6 +54,12 @@ npm run start
    <tr>
     <td>Add Recipe</td>
   </tr>
+   <tr>
+    <td><img width="400px" src="./screenshots/chat.png" border="0" alt="Add-recipe" /> </td>
+  </tr>
+   <tr>
+    <td>message</td>
+  </tr>
  <tr>
    <td><img width="400px" src="./screenshots/profile.png" border="0" alt="Profile" /> </td>
  </tr>
@@ -68,4 +74,4 @@ npm run start
 
 - [`Backend Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar_food_be_rn)
 
-- [`Demo Recipe Food`]()
+- [`Demo Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar-food-rn-fe/releases/tag/1.0.0)
