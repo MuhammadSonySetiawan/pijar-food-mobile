@@ -24,7 +24,7 @@ function messageScreen(props) {
                 createdAt: new Date(),
                 user: {
                     image:
-                        'https://gravatar.com/avatar/0898e56656e0aa2cdd0ee87e7ab341dc?s=400&d=robohash&r=x',
+                        require('../assets/profile.png'),
                     createdAt: new Date(),
                     _id: 2,
                     name: 'React Native',
@@ -56,7 +56,7 @@ function messageScreen(props) {
                     _id: user?.id,
                     name: user?.fullname,
                     avatar:
-                        'https://gravatar.com/avatar/0898e56656e0aa2cdd0ee87e7ab341dc?s=400&d=robohash&r=x',
+                        require('../assets/profile.png'),
                 }}
                 onInputTextChanged={value => {
                     setShowEmoji(false);

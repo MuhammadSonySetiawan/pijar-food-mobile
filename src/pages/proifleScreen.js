@@ -6,111 +6,174 @@ import Icon1 from 'react-native-vector-icons/dist/Feather';
 import Icon5 from 'react-native-vector-icons/dist/Ionicons';
 import Icon6 from 'react-native-vector-icons/dist/MaterialIcons';
 import Icon7 from 'react-native-vector-icons/dist/Octicons';
-
 import { Button, Avatar } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+
 function profileScreen(props) {
     const { navigation } = props;
-    const [type, SetType] = React.useState('ingridien')
+    // console.log('hasil :', props);
+    const state = useSelector((state) => state);
+    const [user, setUser] = React.useState('');
 
-    const hendleLogOut = () => { 
-        AsyncStorage.clear()
-        props.navigation.navigate('Login')
+    console.log(state.userData.userData.data[0]);
+    
+    React.useEffect((res)=>{
+      setUser(state.userData.userData.data[0]);
+      // console.log(res)
+      // axios
+      //   .get(`https://pijar-food-sonny.onrender.com/users/${idUser}`)
+      //   .then((result) => {
+      //     setUser(result?.data?.data[0]), console.log(res);
+// }
+// )
+},[]);
+    const hendleLogOut = () => {
+        AsyncStorage.clear();
+        props.navigation.navigate('Login');
     };
     return (
-        <View style={{
-            flex: 1,
-            alignItems: 'flex-start',
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'flex-start',
         }}>
-            {/* Start Header */}
-            <View style={{
-                flex: 1,
-                width: '100%',
-                height: 400,
-            }}>
-                <View
-                    resizeMode="cover"
-                    style={{ width: '100%', height: 900, backgroundColor:'#AED9B9' }}>
-                    <Button onPress={() => navigation.goBack()}>
-                        <Icon name='arrowleft' size={25} color='#fff' style={{ marginLeft: -355, marginTop: 20 }} />
-                    </Button>
+        {/* Start Header */}
+        <View
+          style={{
+            flex: 1,
+            width: '100%',
+            height: 400,
+          }}>
+          <View
+            resizeMode="cover"
+            style={{width: '100%', height: 900, backgroundColor: '#AED9B9'}}>
+            <Button onPress={() => navigation.goBack()}>
+              <Icon
+                name="arrowleft"
+                size={25}
+                color="#fff"
+                style={{marginLeft: -355, marginTop: 20}}
+              />
+            </Button>
 
-                    <View style={{}}>
-                        <View style={{ borderRadius: 100 ,marginLeft: 130 }}>
-                        {/* <ImageBackground source={require('../assets/tahu_kupat.jpg')}
+            <View style={{}}>
+              <View style={{borderRadius: 100, marginLeft: 130}}>
+                {/* <ImageBackground source={require('../assets/tahu_kupat.jpg')}
                                 style={styles.photoProfile} /> */}
-                            <Avatar.Image size={150} source={{uri :'https://gravatar.com/avatar/0898e56656e0aa2cdd0ee87e7ab341dc?s=400&d=robohash&r=x'}} />
-                    </View>
-                    <Text
-                        variant="labelLarge"
-                        style={styles.textWithShadow}
-                        numberOfLines={1} >
-                        Tahu Kupat Solo
-                    </Text>
-    
-                    </View>
-                </View>
+                <Avatar.Image size={150} source={{uri :user?.photo}} />
+              </View>
+              <Text
+                variant="labelLarge"
+                style={styles.textWithShadow}
+                numberOfLines={1}>
+                {user?.fullName}
+              </Text>
             </View>
-            {/* End Header */}
-
-            {/* Start content */}
-            <View style={{
-                flex: 1,
-                marginLeft:8,
-                minWidth: '96%',
-                height: 100,
-                borderTopLeftRadius: 20,
-                borderTopRightRadius:20,
-                marginTop: -20,
-                backgroundColor: '#fff'
-            }}>
-                {/* Start Navigasi Profile */}
-                <View style={{marginLeft:20}}>
-                    <View style={{ marginTop: 20, marginLeft: 1, flexDirection:'row', alignItems:'baseline' }}>
-                        <Icon1 name='user' size={25} color='#637D76' />
-                        <Text style={{fontSize:18, marginLeft:10, marginRight:185}}>Edit Profile</Text>
-                        <Button onPress={() => navigation.goBack()}>
-                            <Icon name='right' size={25} color='#637D76' />
-                        </Button>
-                    </View>
-
-                    <View style={{ marginTop: 20, marginLeft: 1, flexDirection: 'row', alignItems: 'baseline' }}>
-                        <Icon7 name='file-badge' size={25} color='#637D76' />
-                        <Text style={{ fontSize: 18, marginLeft: 10, marginRight: 190 }}>My Recipe</Text>
-                        <Button onPress={() => navigation.goBack()}>
-                            <Icon name='right' size={25} color='#637D76' />
-                        </Button>
-                    </View>
-
-                    <View style={{ marginTop: 20, marginLeft: 1, flexDirection: 'row', alignItems: 'baseline' }}>
-                        <Icon6 name='save-alt' size={25} color='#637D76' />
-                        <Text style={{ fontSize: 18, marginLeft: 10, marginRight: 165 }}>Saved Recipe</Text>
-                        <Button onPress={() => navigation.goBack()}>
-                            <Icon name='right' size={25} color='#637D76' />
-                        </Button>
-                    </View>
-
-                    <View style={{ marginTop: 20, marginLeft: 1, flexDirection: 'row', alignItems: 'baseline' }}>
-                        <Icon name='like2' size={25} color='#637D76' />
-                        <Text style={{ fontSize: 18, marginLeft: 10, marginRight: 170 }}>Liked Recipe</Text>
-                        <Button onPress={() => navigation.goBack()}>
-                            <Icon name='right' size={25} color='#637D76' />
-                        </Button>
-                    </View>
-
-                    <View style={{ marginTop: 20, marginLeft: 1, flexDirection: 'row', alignItems: 'baseline' }}>
-                        <Icon5 name='log-out-outline' size={25} color='#637D76' />
-                        <Text style={{ fontSize: 18, marginLeft: 10, marginRight: 210 }}>Log Out</Text>
-                        <Button onPress={hendleLogOut}>
-                            <Icon name='right' size={25} color='#637D76' />
-                        </Button>
-                    </View>
-                </View>
-                {/* End Navigasi Profile */}
-            </View>
-            {/* End Content */}
+          </View>
         </View>
-    )
+        {/* End Header */}
+
+        {/* Start content */}
+        <View
+          style={{
+            flex: 1,
+            marginLeft: 8,
+            minWidth: '96%',
+            height: 100,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            marginTop: -20,
+            backgroundColor: '#fff',
+          }}>
+          {/* Start Navigasi Profile */}
+          <View style={{marginLeft: 20}}>
+            <View
+              style={{
+                marginTop: 20,
+                marginLeft: 1,
+                flexDirection: 'row',
+                alignItems: 'baseline',
+              }}>
+              <Icon1 name="user" size={25} color="#637D76" />
+              <Text style={{fontSize: 18, marginLeft: 10, marginRight: 185}}>
+                Edit Profile
+              </Text>
+              <Button onPress={() => navigation.navigate('EditProfile')}>
+                <Icon name="right" size={25} color="#637D76" />
+              </Button>
+            </View>
+
+            <View
+              style={{
+                marginTop: 20,
+                marginLeft: 1,
+                flexDirection: 'row',
+                alignItems: 'baseline',
+              }}>
+              <Icon7 name="file-badge" size={25} color="#637D76" />
+              <Text style={{fontSize: 18, marginLeft: 10, marginRight: 190}}>
+                My Recipe
+              </Text>
+              <Button onPress={() => navigation.goBack()}>
+                <Icon name="right" size={25} color="#637D76" />
+              </Button>
+            </View>
+
+            <View
+              style={{
+                marginTop: 20,
+                marginLeft: 1,
+                flexDirection: 'row',
+                alignItems: 'baseline',
+              }}>
+              <Icon6 name="save-alt" size={25} color="#637D76" />
+              <Text style={{fontSize: 18, marginLeft: 10, marginRight: 165}}>
+                Saved Recipe
+              </Text>
+              <Button onPress={() => navigation.goBack()}>
+                <Icon name="right" size={25} color="#637D76" />
+              </Button>
+            </View>
+
+            <View
+              style={{
+                marginTop: 20,
+                marginLeft: 1,
+                flexDirection: 'row',
+                alignItems: 'baseline',
+              }}>
+              <Icon name="like2" size={25} color="#637D76" />
+              <Text style={{fontSize: 18, marginLeft: 10, marginRight: 170}}>
+                Liked Recipe
+              </Text>
+              <Button onPress={() => navigation.goBack()}>
+                <Icon name="right" size={25} color="#637D76" />
+              </Button>
+            </View>
+
+            <View
+              style={{
+                marginTop: 20,
+                marginLeft: 1,
+                flexDirection: 'row',
+                alignItems: 'baseline',
+              }}>
+              <Icon5 name="log-out-outline" size={25} color="#637D76" />
+              <Text style={{fontSize: 18, marginLeft: 10, marginRight: 210}}>
+                Log Out
+              </Text>
+              <Button onPress={hendleLogOut}>
+                <Icon name="right" size={25} color="#637D76" />
+              </Button>
+            </View>
+          </View>
+          {/* End Navigasi Profile */}
+        </View>
+        {/* End Content */}
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -121,9 +184,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 30,
         color: '#fff',
-        marginTop: 20,
+        marginTop: 5,
+        textAlign:'center',
         // marginLeft: 10,
-        marginLeft: 90
+        // marginLeft: 90
         // fontFamily: 'sans-serif'
     },
     textByRecipes: {
