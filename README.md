@@ -49,6 +49,12 @@ npm run start
    <td>Home</td>
   </tr>
   <tr>
+  <td><img width="400px" src="./screenshots/search.png" border="0" alt="Search" /> </td>
+ </tr>
+  <tr>
+   <td>Search</td>
+  </tr>
+  <tr>
     <td><img width="400px" src="./screenshots/edd-recipe.png" border="0" alt="Add-recipe" /> </td>
   </tr>
    <tr>
@@ -65,6 +71,12 @@ npm run start
  </tr>
  <tr>
      <td>Profile</td>
+  </tr>
+  <tr>
+   <td><img width="400px" src="./screenshots/edit-profile.png" border="0" alt="Edit-profile" /> </td>
+ </tr>
+ <tr>
+     <td>Edit Profile</td>
   </tr>
 </table>
 
