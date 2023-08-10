@@ -41,10 +41,10 @@ function profileScreen(props) {
   const state = useSelector(state => state);
   const [user, setUser] = React.useState('');
 
-  const [fullname, setFulname] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [phone, setPhone] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [fullname, setFulname] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
+  const [phone, setPhone] = React.useState(null);
+  const [password, setPassword] = React.useState(null);
 
   const [photo, setPhoto] = React.useState('');
 
@@ -129,12 +129,12 @@ function profileScreen(props) {
             />
           </Button>
 
-          <View style={{}}>
+          <View style={{marginTop: -10}}>
             <View style={{borderRadius: 100, marginLeft: 130}}>
               {/* <ImageBackground source={require('../assets/tahu_kupat.jpg')}
                                 style={styles.photoProfile} /> */}
               <TouchableOpacity onPress={openGalery}>
-                <Avatar.Image size={150} source={user.photo} />
+                <Avatar.Image size={150} source={{uri: user?.photo}} />
               </TouchableOpacity>
             </View>
             {/* <Text
@@ -172,7 +172,7 @@ function profileScreen(props) {
           height: 100,
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
-          marginTop: -100,
+          marginTop: -150,
           backgroundColor: '#fff',
           boxShadowColor: 'rgba(0, 0, 0, 0.90)',
         }}>

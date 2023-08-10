@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {Searchbar} from 'react-native-paper';
+import { Avatar, Card, IconButton, Searchbar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 
 import {Button} from 'react-native-paper';
@@ -25,11 +25,12 @@ function profileScreen(props) {
   const state = useSelector(state => state);
   const [keyword, setKeyword] = React.useState('');
   const [resipesList, setRecipesList] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   console.log(keyword);
 
   const hendelSearch = () => {
-    // const param = keyword;
+    setIsLoading(true);
     axios
       .get(`https://pijar-food-sonny.onrender.com/recipes`, {
         params: {
@@ -38,6 +39,13 @@ function profileScreen(props) {
       })
       .then(response => {
         setRecipesList(response?.data?.data);
+      })
+      .catch(err => {
+        // Alert.alert('Warning', err.response.data.messages, [{style: 'cancel'}]),
+        console.log('gagal :', err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
   console.log('isi :', resipesList);
@@ -75,8 +83,9 @@ function profileScreen(props) {
                 borderRadius: 15,
                 width: 240,
                 height: 50,
+                textAlign: 'center',
               }}
-              placeholder="Search Pasta, Bread, etc"
+              placeholder="Search Recipe"
               onChangeText={value => setKeyword(value)}
               // onKeyDown={e => {
               //   if (e.keyCode === 13) {
@@ -90,13 +99,16 @@ function profileScreen(props) {
                 style={{
                   backgroundColor: '#637D76',
                   marginLeft: 5,
+                  marginRight:10,
                   marginTop: 5,
                 }}
-                onPress={hendelSearch}>
-                <Text>Search</Text>
+                onPress={hendelSearch}
+                disabled={isLoading}>
+                <Text>{isLoading === true ? 'Loading...' : 'Search'}</Text>
               </Button>
             </View>
           </View>
+
           {keyword?.length > 0 ? (
             <View
               style={{
@@ -108,45 +120,65 @@ function profileScreen(props) {
               {/* {console.log('resipesList', resipesList)} */}
               {resipesList.map((item, key) => (
                 <>
-                {/* <View>
+                  {/* <View>
                   <Text style={{textAlign: 'center',fontSize: 20,}}> Hasil Pencarian</Text>
                 </View> */}
-                <View>
-                  <TouchableOpacity
-                    style={{marginTop: 5, marginRight: 10}}
-                    key={key}
-                    onPress={() => {
-                      dispatch(addRecipe(item));
-                      dispatch(getSelectRecipe(item.id));
+                  <View>
+                    <TouchableOpacity
+                      style={{marginTop: 5, marginRight: 10}}
+                      key={key}
+                      onPress={() => {
+                        dispatch(addRecipe(item));
+                        dispatch(getSelectRecipe(item.id));
 
-                      navigation.navigate('Detail');
-                    }}>
-                    <ImageBackground
-                      source={{
-                        uri: item.recipePicture,
-                        // boxShadowColor: 'rgba(0, 0, 0, 0.75)',
-                      }}
-                      resizeMode="cover"
-                      style={{width: '100%', height: 200, position: 'relative'}}
-                      imageStyle={{borderRadius: 10}}>
-                      <Text
-                        variant="labelLarge"
+                        navigation.navigate('Detail');
+                      }}>
+                      <Card.Title
                         style={{
-                          fontSize: 20,
-                          color: '#fff',
-                          position: 'absolute',
-                          margin: 10,
-                          bottom: 10,
-                          textShadowOffset: {width: -1, height: 1},
-                          textShadowRadius: 10,
-                          textShadowColor: 'rgb(0, 0, 0, 0.75)',
+                          backgroundColor: '#ffff',
+                          borderRadius: 5,
+                          marginBottom: 10,
                         }}
-                        numberOfLines={1}>
-                        {item.title}
-                      </Text>
-                    </ImageBackground>
-                  </TouchableOpacity>
-                </View>
+                        title={item.title}
+                        subtitle={item?.ingredients}
+                        left={props => (
+                          <Avatar.Image
+                            size={50}
+                            source={{uri: item.recipePicture}}
+                          />
+                        )}
+                      />
+
+                      {/* <ImageBackground
+                        source={{
+                          uri: item.recipePicture,
+                          // boxShadowColor: 'rgba(0, 0, 0, 0.75)',
+                        }}
+                        resizeMode="cover"
+                        style={{
+                          width: '100%',
+                          height: 200,
+                          position: 'relative',
+                        }}
+                        imageStyle={{borderRadius: 10}}>
+                        <Text
+                          variant="labelLarge"
+                          style={{
+                            fontSize: 20,
+                            color: '#fff',
+                            position: 'absolute',
+                            margin: 10,
+                            bottom: 10,
+                            textShadowOffset: {width: -1, height: 1},
+                            textShadowRadius: 10,
+                            textShadowColor: 'rgb(0, 0, 0, 0.75)',
+                          }}
+                          numberOfLines={1}>
+                          {item.title}
+                        </Text>
+                      </ImageBackground> */}
+                    </TouchableOpacity>
+                  </View>
                 </>
               ))}
             </View>

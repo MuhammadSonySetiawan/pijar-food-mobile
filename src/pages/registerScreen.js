@@ -24,10 +24,10 @@ import uuid from 'react-native-uuid';
 function registerScreen(props) {
   const {navigation} = props;
 
-  const [fullname, setFulname] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [phone, setPhone] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [fullname, setFulname] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
+  const [phone, setPhone] = React.useState(null);
+  const [password, setPassword] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
 
@@ -50,7 +50,7 @@ function registerScreen(props) {
         setEmail(""),
         setPhone(""),
         setPassword(""),
-        navigation.navigate("/loginScreen")
+        navigation.navigate("Login")
       );
   };
 
@@ -74,13 +74,13 @@ function registerScreen(props) {
         setEmail(''),
         setPhone(''),
         setPassword(''),
-        navigation.navigate('/loginScreen'),
+        // navigation.navigate('Login'),
       );
 
 
     axios
       .post('https://pijar-food-sonny.onrender.com/users', {
-        fullname: fullname,
+        fullName: fullname,
         email: email,
         phoneNumber: phone,
         password: password,
@@ -99,17 +99,17 @@ function registerScreen(props) {
       // .then(() => console.log('Data updated.'))
 
       .then(async res => {
-        Alert.alert('Succes', 'Register succes', [
+        Alert.alert('Succes', res.data.message, [
           {style: 'Ok' && props.navigation.navigate('Login')},
         ]);
-        props.navigation.navigate('Login');
-        console.log('hasil :', res);
+        // props.navigation.navigate('Login');
+        console.log('hasil :', res.data.message);
       })
-      .catch(
-        err =>
-          Alert.alert('Warning', err.response.data.messages, [{style: 'Ok'}]),
+      .catch( err =>{
+        Alert.alert('Warning', err.response.data.messages ?? "The input form must not be empty.", [{style: 'Ok'}])
         // console.log('error :', err.response.data.messages)
-      )
+        // console.log('error :', err)
+      })
       .finally(() => {
         setIsLoading(false);
       });

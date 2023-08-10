@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {Text, Card, Searchbar, PaperProvider} from 'react-native-paper';
+import {Text, Card, Searchbar, PaperProvider, Avatar} from 'react-native-paper';
 import {
   ScrollView,
   View,
@@ -35,7 +35,7 @@ function homeScreen(props) {
   const {navigation} = props;
   const dispatch = useDispatch();
   const state = useSelector(state => state);
-  console.log('hasil :', state.recipe);
+  // console.log('hasil :', state.recipe);
 
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
@@ -46,21 +46,26 @@ function homeScreen(props) {
 
   const [searchQuery, setSearchQuery] = React.useState('');
   const [recipes, setRecipes] = React.useState([]);
+  const [popular, setPopuler] = React.useState([]);
 
   React.useEffect(() => {
+    // New Recipe
     axios
       .get('https://pijar-food-sonny.onrender.com/recipes')
       .then(res => {
         setRecipes(res?.data?.data ?? []);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch(err => console.log('error :', err));
 
-    // database()
-    //   .ref('/')
-    //   .on('value', snapshot => {
-    //     console.log('User data: ', snapshot.val());
-    //   });
+    // Populer Recipe
+    axios
+      .get('https://pijar-food-sonny.onrender.com/recipes?sortType=asc')
+      .then(res => {
+        setPopuler(res?.data?.data ?? []);
+        console.log('hasil :', res.data.data);
+      })
+      .catch(err => console.log('hasil :', err));
   }, []);
 
   return (
@@ -250,8 +255,8 @@ function homeScreen(props) {
                   Popular Recipes
                 </Text>
               </View>
-              <ScrollView horizontal>
-                {recipes.map((item, key) => (
+              <ScrollView style={{marginBottom: 80}}>
+                {popular.map((item, key) => (
                   <TouchableOpacity
                     key={key}
                     onPress={() => {
@@ -263,32 +268,79 @@ function homeScreen(props) {
                     style={{
                       width: 250,
                       height: 210,
-                      marginRight: 10,
-                      marginBottom: 80,
+                      // marginRight: 10,
+                      marginBottom: -80,
                     }}>
-                    <Card
+                    {/* <Card.Title
                       style={{
-                        width: 250,
-                        height: 210,
-                        marginRight: 10,
-                        marginBottom: 50,
+                        // backgroundColor: '#ffff',
+                        borderRadius: 5,
+                        backgroundColor:'red',
+                        width:380,
+                        height:150
+                      }}
+                      title={item.title}
+                      subtitle={item?.ingredients}
+                      left={props => (
+                        // <Avatar.Image
+                        //   size={50}
+                        //   source={{uri: item.recipePicture}}
+                        // />
+                        <Image
+                          source={{uri: item.recipePicture}}
+                          style={{
+                            width: 120,
+                            height: 120,
+                            borderRadius: 5,
+                            marginRight: 10,
+                          }}
+                        />
+                      )}
+                    /> */}
+                    <View
+                      style={{
+                        width: 381,
+                        height: 120,
+                        // marginRight: 10,
+                        marginBottom: 100,
+                        backgroundColor: '#AED9B9',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        borderRadius: 5,
                       }}>
-                      <Card.Cover
+                      <Image
                         source={{uri: item.recipePicture}}
                         style={{
-                          width: 250,
-                          height: 150,
+                          width: 100,
+                          height: 100,
+                          margin: 10,
+                          borderRadius: 5,
                         }}
                       />
-                      <Card.Content>
-                        <Text variant="titleLarge" numberOfLines={1}>
+                      <View style={{marginTop: 20}}>
+                        <Text
+                          // variant="titleLarge"
+                          style={{
+                            textShadowOffset: {width: -1, height: 1},
+                            textShadowRadius: 10,
+                            textShadowColor: 'rgb(0, 0, 0, 0.75)',
+                            fontSize: 20,
+                          }}
+                          numberOfLines={1}>
                           {item.title}
                         </Text>
-                        <Text variant="bodyMedium" numberOfLines={1}>
+                        <Text
+                          variant="bodyMedium"
+                          style={{
+                            textShadowOffset: {width: -1, height: 1},
+                            textShadowRadius: 10,
+                            textShadowColor: 'rgb(0, 0, 0, 0.75)',
+                          }}
+                          numberOfLines={2}>
                           {item?.ingredients ?? 'ingridient not found'}
                         </Text>
-                      </Card.Content>
-                    </Card>
+                      </View>
+                    </View>
                   </TouchableOpacity>
                 ))}
               </ScrollView>

@@ -195,10 +195,10 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10,
-    // fontWeight: 'bold',
+    fontWeight: 'bold',
     fontSize: 15,
     color: '#fff',
-    marginLeft: 15,
+    marginLeft: 8,
   },
   buttonActive: {
     color: '#18172B',

@@ -22,7 +22,6 @@ const options = {
     selectionLimit: 1,
     mediaType: 'photo',
     includeBase64: false,
-    // includeExtra,
   },
 };
 
@@ -33,103 +32,96 @@ function eddScreen(props) {
   // const [fileResponse, setFileResponse] = React.useState([]);
   // const [photo, setPhoto] = React.useState([]);
 
+  const [controlImg, setControlImg] = React.useState(null);
   const [recipePicture, setRecipePicture] = React.useState(null);
   const [title, setTitle] = React.useState(null);
-  const [ingredients, setIngredients] = React.useState();
+  const [ingredients, setIngredients] = React.useState(null);
   const [videoLink, setVideoLink] = React.useState(null);
 
     // open galery
   const openGalery = async () => {
     const image = await launchImageLibrary(options);
+    console.log('Ambil gambar :', image.assets[0].fileName);
     setRecipePicture(image.assets[0].fileName);
-    console.log(image.assets[0].fileName);
+    setControlImg(image.assets[0]);
   };
 
+  // React.useEffect(()=>{
+  //   console.log(controlImg);
+  // },[])
   // add recipe
-  // const hendleAddRecipes = async () => {
-  //   if (recipePicture && title && ingredients && videoLink) {
-  //     console.log(state.userData.userData.token);
-  //     const token = state.userData.userData.token;
-  //     axios
-  //       .post(
-  //         `https://pijar-food-sonny.onrender.com/recipes`,
-  //         {
-  //           recipePicture: recipePicture,
-  //           title: title,
-  //           ingredients: ingredients,
-  //           videoLink: videoLink,
-  //         },
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //             'Content-Type': 'multipart/form-data',
-  //           },
-  //         },
-  //       )
-  //       .then(res => {
-  //         // Swal.fire({
-  //         //   title: 'Add Recipes Success',
-  //         //   text: 'Add Recipes Success, redirect to app',
-  //         //   icon: 'success',
-  //         // });
-  //         // navigate('/');
-  //         console.log('berhasil :', res);
-  //       })
-  //       .catch(error => {
-  //         // Swal.fire({
-  //         //   title: 'Add Recipes Error!',
-  //         //   text: error?.response?.data?.message ?? 'Someting wrong in our app',
-  //         //   icon: 'error',
-  //         // });
-  //         console.log('gagal :',error);
-  //       });
-  //   } else {
-  //     // Swal.fire({
-  //     //   title: 'Add Recipes Error!',
-  //     //   text: 'Please fill in completely',
-  //     //   icon: 'error',
-  //     // });
-  //     console.log('gagal aja');
-  //   }
-  // };
 
-  const takePhotoAndUpload = async () => {
-    // let result = await ImagePicker.launchImageLibraryAsync({
-    //   allowsEditing: false,
-    //   aspect: [4, 3],
-    //   quality: 1,
-    // });
-    // console.log(result)
+  const hendleAddRecipes = async () => {
+    if (recipePicture && title && ingredients && videoLink) {
+      console.log(state.userData.userData.token);
+      const token = state.userData.userData.token;
+      axios
+        .post(
+          `https://pijar-food-sonny.onrender.com/recipes`,
+          {
+            recipePicture: recipePicture,
+            title: title,
+            ingredients: ingredients,
+            videoLink: videoLink,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        )
+        .then(res => {
+          // Swal.fire({
+          //   title: 'Add Recipes Success',
+          //   text: 'Add Recipes Success, redirect to app',
+          //   icon: 'success',
+          // });
+          // navigate('/');
+          console.log('berhasil :', res);
+        })
+        .catch(error => {
+          // Swal.fire({
+          //   title: 'Add Recipes Error!',
+          //   text: error?.response?.data?.message ?? 'Someting wrong in our app',
+          //   icon: 'error',
+          // });
+          console.log('gagal :',error);
+        });
+    } else {
+      // Swal.fire({
+      //   title: 'Add Recipes Error!',
+      //   text: 'Please fill in completely',
+      //   icon: 'error',
+      // });
+      console.log('gagal aja');
+    }
+  };
 
-    // if (result.cancelled) {
-    //   return;
-    // }
-
-    // let localUri = result.uri;
-    // setPhotoShow(localUri);
-    // let filename = localUri.split('/').pop();
-
-    // let match = /\.(\w+)$/.exec(filename);
-    // let type = match ? `image/${match[1]}` : `image`;
-
-    // let formData = new FormData();
-    // formData.append('photo', {uri: localUri, name: filename, type});
-
-    const token = state.userData.userData.token;
-
-    axios
+  const takePhotoAndUpload = async () => {console.log('tombol post :', recipePicture);
+  const token = state.userData.userData.token;
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('ingredients', ingredients);
+  formData.append('videoLink', videoLink);
+  formData.append('recipePicture', {
+   uri: controlImg.uri,
+   type: controlImg.type,
+   name: controlImg.fileName,
+ });
+  await axios
       .post(
         `https://pijar-food-sonny.onrender.com/recipes`,
         {
-          // recipePicture: recipePicture,
+          recipePicture: recipePicture,
           title: title,
           ingredients: ingredients,
           videoLink: videoLink,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
           },
         },
       )
@@ -138,7 +130,7 @@ function eddScreen(props) {
         console.log('berhasil :', res);
       })
       .catch(err => {
-        console.log('errorl :', err.response);
+        console.log('error :', err.response);
       });
   };
 
@@ -167,6 +159,7 @@ function eddScreen(props) {
               color: '#637D76',
               textAlign: 'center',
               marginBottom: 20,
+              marginTop: 20,
             }}>
             Add Your Recipe
           </Text>
@@ -220,7 +213,7 @@ function eddScreen(props) {
               <TextInput
                 placeholder="Add Video"
                 style={{fontSize: 18, padding: 5}}
-                onChangeText={value => setVideoLink(value)}
+                onChangeText={files => setVideoLink(files)}
               />
             </View>
             <View style={{marginLeft: 50, marginTop: 2}}>
@@ -235,6 +228,20 @@ function eddScreen(props) {
                 Add Image
               </Button>
             </View>
+
+            {/* <View style={styles.input}>
+              <Icon2
+                name="video"
+                size={32}
+                color="#637D76"
+                style={{marginRight: 5}}
+              />
+              <TextInput
+                placeholder="Add Video"
+                style={{fontSize: 18, padding: 5}}
+                onChangeText={value => setRecipePicture(value)}
+              />
+            </View> */}
 
             <View style={{marginLeft: 120, marginTop: 20}}>
               <Button
@@ -313,5 +320,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
 
   },
-})
+});
 export default eddScreen;

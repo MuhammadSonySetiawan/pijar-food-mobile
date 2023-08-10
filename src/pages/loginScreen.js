@@ -85,15 +85,26 @@ function loginScreen(props) {
         // dispatch(user(res.data.data));
         console.log('berhasil :', res.data.data);
         await AsyncStorage.setItem('token', res.data.token);
-        // await AsyncStorage.setItem('id', res.data.data.id);
-        // await AsyncStorage.setItem('id', res.data.data.id);
         props.navigation.navigate('Home');
         dispatch(setUser(res.data));
         //  console.log('berhasil :', res.data.data);
       })
       .catch(err => {
-        // Alert.alert('Warning', err.response.data.messages, [{style: 'cancel'}]),
-        console.log('gagal :', err);
+        if (!email && !password) {
+          Alert.alert('Warning', 'Enter your email or password', [
+            {style: 'cancel'},
+          ]);
+        }else if (!email) {
+          Alert.alert('Warning', 'The email input field is still empty!', [
+            {style: 'cancel'},
+          ]);
+        }else if (!password){
+          Alert.alert('Warning', 'The password input field is still empty!', [
+            {style: 'cancel'},
+          ]);
+        }else{
+          Alert.alert('Warning', err.response.data.messages ?? "You have entered an incorrect email or password.", [{style: 'cancel'}])
+        }
       })
       .finally(() => {
         setIsLoading(false);
