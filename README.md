@@ -86,4 +86,4 @@ npm run start
 
 - [`Backend Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar_food_be_rn)
 
-- [`Demo Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar-food-rn-fe/releases/tag/1.0.0)
+- [`Demo Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar-food-mobile/releases)
