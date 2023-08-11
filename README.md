@@ -82,7 +82,7 @@ npm run start
 
 ## Related Project
 
-- [`Frontend Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar-food-rn-fe)
+- [`Frontend Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar-food-mobile)
 
 - [`Backend Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar_food_be_rn)
 
