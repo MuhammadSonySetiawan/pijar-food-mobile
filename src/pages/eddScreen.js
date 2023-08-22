@@ -1,151 +1,147 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, ScrollView, TextInput, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
+  TextInput,
+  StyleSheet,
+  Platform,
+  Alert,
+} from 'react-native';
 
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import Icon2 from 'react-native-vector-icons/dist/Feather';
 
 import { Button, PaperProvider } from 'react-native-paper';
 
-import DocumentPicker, { types } from 'react-native-document-picker';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
-import * as ImagePicker from 'expo-image-picker';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { launchImageLibrary} from 'react-native-image-picker';
 
-const options = {
-  title: 'Select Image',
-  type: 'library',
-  options: {
-    maxHeight: 200,
-    maxWidth: 200,
-    selectionLimit: 1,
-    mediaType: 'photo',
-    includeBase64: false,
-  },
+import DropDownPicker from 'react-native-dropdown-picker';
+
+const createFormData = (photo, title, videoLink, ingredients, category) => {
+  const data = new FormData();
+
+  data.append('recipePicture', {
+    name: photo?.assets[0]?.fileName,
+    type: photo?.assets[0]?.type,
+    uri:
+      Platform.OS === 'ios'
+        ? photo?.assets[0]?.uri.replace('file://', '')
+        : photo?.assets[0]?.uri,
+  });
+
+  data.append('title', title);
+  data.append('ingredients', ingredients);
+  data.append('videoLink', videoLink);
+  data.append('category', category);
+
+  return data;
 };
 
 function eddScreen(props) {
   const {navigation} = props;
   const state = useSelector(state => state);
 
-  // const [fileResponse, setFileResponse] = React.useState([]);
-  // const [photo, setPhoto] = React.useState([]);
-
-  const [controlImg, setControlImg] = React.useState(null);
   const [recipePicture, setRecipePicture] = React.useState(null);
   const [title, setTitle] = React.useState(null);
   const [ingredients, setIngredients] = React.useState(null);
   const [videoLink, setVideoLink] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-    // open galery
-  const openGalery = async () => {
-    const image = await launchImageLibrary(options);
-    console.log('Ambil gambar :', image.assets[0].fileName);
-    setRecipePicture(image.assets[0].fileName);
-    setControlImg(image.assets[0]);
+  // droppdown
+  const [open, setOpen] = React.useState(false);
+  const [category, SetCategory] = React.useState(null);
+  const [items, setItems] = React.useState([
+    {label: 'Chicken', value: 'Chicken'},
+    {label: 'Snacks', value: 'Snacks'},
+    {label: 'Ice Cream', value: 'Ice Cream'},
+    {label: 'Mie', value: 'Mie'},
+    {label: 'Vegeterian', value: 'Vegeterian'},
+    {label: 'Seafood', value: 'Seafood'},
+    {label: 'Meat', value: 'Meat'},
+    {label: 'Other Food', value: 'Other Food'},
+  ]);
+  // console.log(category);
+
+  const hendleRefresh = () => {
+    axios
+      .get(`https://pijar-food-sonny.onrender.com/recipes`)
+      .then(res => {
+        console.log('berhasil :', res?.data?.data ?? []);
+      })
+      .catch(err => console.log('gagal :', err));
   };
 
-  // React.useEffect(()=>{
-  //   console.log(controlImg);
-  // },[])
-  // add recipe
+  const handleChoosePhoto = () => {
+    launchImageLibrary({noData: true}, response => {
+      console.log(response);
+      if (response) {
+        setRecipePicture(response);
+      }
+    });
+  };
 
-  const hendleAddRecipes = async () => {
-    if (recipePicture && title && ingredients && videoLink) {
-      console.log(state.userData.userData.token);
+  const handleCreateRecipe = () => {
+    if (!recipePicture && !title && !ingredients && !videoLink) {
+      Alert.alert('Warning', 'input form cannot be empty!', [
+        {style: 'cancel'},
+      ]);
+    } else if (!recipePicture) {
+      Alert.alert('Warning', 'photo not included!', [{style: 'cancel'}]);
+    } else if (!title) {
+      Alert.alert('Warning', 'title not included!', [{style: 'cancel'}]);
+    } else if (!ingredients) {
+      Alert.alert('Warning', 'ingredient not included!', [{style: 'cancel'}]);
+    } else if (!videoLink) {
+      Alert.alert('Warning', 'Video link not yet included', [
+        {style: 'cancel'},
+      ]);
+    } else if (!category) {
+      Alert.alert('Warning', 'Category not yet included', [
+        {style: 'cancel'},
+      ]);
+    } else {
+      setIsLoading(true);
       const token = state.userData.userData.token;
+      const payload = createFormData(
+        recipePicture,
+          title,
+          videoLink,
+          ingredients,
+          category,
+      );
       axios
         .post(
-          `https://pijar-food-sonny.onrender.com/recipes`,
-          {
-            recipePicture: recipePicture,
-            title: title,
-            ingredients: ingredients,
-            videoLink: videoLink,
-          },
+          'https://pijar-food-sonny.onrender.com/recipes', payload,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
               'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${token}`,
             },
           },
         )
-        .then(res => {
-          // Swal.fire({
-          //   title: 'Add Recipes Success',
-          //   text: 'Add Recipes Success, redirect to app',
-          //   icon: 'success',
-          // });
-          // navigate('/');
-          console.log('berhasil :', res);
+        .then(response => {
+          hendleRefresh();
+          console.log('Succes :', response.data.message);
+          Alert.alert('Succes', response.data.message, [
+            {style: 'Ok' && props.navigation.navigate('Home')},
+          ]);
         })
         .catch(error => {
-          // Swal.fire({
-          //   title: 'Add Recipes Error!',
-          //   text: error?.response?.data?.message ?? 'Someting wrong in our app',
-          //   icon: 'error',
-          // });
-          console.log('gagal :',error);
+          console('gagal :', error?.response?.data?.message);
+          // console.log('gagal :', error);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
-    } else {
-      // Swal.fire({
-      //   title: 'Add Recipes Error!',
-      //   text: 'Please fill in completely',
-      //   icon: 'error',
-      // });
-      console.log('gagal aja');
     }
   };
 
-  const takePhotoAndUpload = async () => {console.log('tombol post :', recipePicture);
-  const token = state.userData.userData.token;
-  const formData = new FormData();
-  formData.append('title', title);
-  formData.append('ingredients', ingredients);
-  formData.append('videoLink', videoLink);
-  formData.append('recipePicture', {
-   uri: controlImg.uri,
-   type: controlImg.type,
-   name: controlImg.fileName,
- });
-  await axios
-      .post(
-        `https://pijar-food-sonny.onrender.com/recipes`,
-        {
-          recipePicture: recipePicture,
-          title: title,
-          ingredients: ingredients,
-          videoLink: videoLink,
-        },
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
-      .then(res => {
-        // setRecipePicture(res.data.photo.photo);
-        console.log('berhasil :', res);
-      })
-      .catch(err => {
-        console.log('error :', err.response);
-      });
-  };
-
-
-  // const handleDocumentSelection = React.useCallback(async () => {
-  //   try {
-  //     const response = await DocumentPicker.pick({
-  //       presentationStyle: 'fullScreen',
-  //       type: [types.pdf, types.docx],
-  //     });
-  //     setFileResponse(response);
-  //   } catch (err) {
-  //     console.warn(err);
-  //   }
-  // }, []);
   return (
     <PaperProvider>
       <SafeAreaView style={{backgroundColor: '#AED9B9', height: '100%'}}>
@@ -163,7 +159,6 @@ function eddScreen(props) {
             }}>
             Add Your Recipe
           </Text>
-
           <View>
             <View style={styles.input}>
               <Icon2
@@ -202,7 +197,6 @@ function eddScreen(props) {
                 onChangeText={value => setIngredients(value)}
               />
             </View>
-
             <View style={styles.input}>
               <Icon2
                 name="video"
@@ -213,13 +207,24 @@ function eddScreen(props) {
               <TextInput
                 placeholder="Add Video"
                 style={{fontSize: 18, padding: 5}}
-                onChangeText={files => setVideoLink(files)}
+                onChangeText={value => setVideoLink(value)}
+              />
+            </View>
+            <View>
+              <DropDownPicker
+                style={styles.styleDropdown}
+                open={open}
+                value={category}
+                items={items}
+                setOpen={setOpen}
+                setValue={SetCategory}
+                setItems={setItems}
               />
             </View>
             <View style={{marginLeft: 50, marginTop: 2}}>
               <Button
                 mode="contained"
-                onPress={openGalery}
+                onPress={handleChoosePhoto}
                 style={{
                   width: 300,
                   backgroundColor: '#637D76',
@@ -229,26 +234,13 @@ function eddScreen(props) {
               </Button>
             </View>
 
-            {/* <View style={styles.input}>
-              <Icon2
-                name="video"
-                size={32}
-                color="#637D76"
-                style={{marginRight: 5}}
-              />
-              <TextInput
-                placeholder="Add Video"
-                style={{fontSize: 18, padding: 5}}
-                onChangeText={value => setRecipePicture(value)}
-              />
-            </View> */}
-
             <View style={{marginLeft: 120, marginTop: 20}}>
               <Button
                 mode="contained"
-                onPress={takePhotoAndUpload}
+                // onPress={takePhotoAndUpload}
+                onPress={handleCreateRecipe}
                 style={{width: 150, backgroundColor: '#637D76'}}>
-                Post
+                {isLoading === true ? 'Loading...' : 'Post'}
               </Button>
             </View>
           </View>
@@ -271,10 +263,6 @@ function eddScreen(props) {
               justifyContent: 'space-around',
               marginTop: 10,
             }}>
-            {/* <Button mode="contained" onPress={() => console.log('Pressed')} style={{width:150 ,height:50}}>
-                        <Image  source={require('./assets/home-yelow.png')} /> Home
-                      </Button>
-                      */}
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
               <Icon name="home" size={35} color="#666666" />
               <Text style={{color: '#666666'}}>Home</Text>
@@ -315,10 +303,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
-    // borderColor: '#fff',
     backgroundColor: '#f5f5f5',
     flexDirection: 'row',
-
+  },
+  styleDropdown: {
+    height: 50,
+    width: 390,
+    marginBottom: 12,
+    marginLeft: 12,
+    marginRight: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#f5f5f5',
+    flexDirection: 'row',
   },
 });
 export default eddScreen;

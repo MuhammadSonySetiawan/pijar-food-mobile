@@ -3,41 +3,39 @@ import React from 'react';
 import {
   View,
   Text,
-  ImageBackground,
-  ScrollView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Alert,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import Icon1 from 'react-native-vector-icons/dist/Feather';
-import Icon5 from 'react-native-vector-icons/dist/Ionicons';
-import Icon6 from 'react-native-vector-icons/dist/MaterialIcons';
-import Icon7 from 'react-native-vector-icons/dist/Octicons';
 import Icon4 from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {Button, Avatar} from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 
+const createFormData = photo => {
+  const data = new FormData();
 
-const options = {
-  title: 'Select Image',
-  type: 'library',
-  options: {
-    maxHeight: 200,
-    maxWidth: 200,
-    selectionLimit: 1,
-    mediaType: 'photo',
-    includeBase64: false,
-    // includeExtra,
-  },
+  data.append('photo', {
+    name: photo?.assets[0]?.fileName,
+    type: photo?.assets[0]?.type,
+    uri:
+      Platform.OS === 'ios'
+        ? photo?.assets[0]?.uri.replace('file://', '')
+        : photo?.assets[0]?.uri,
+  });
+
+  return data;
 };
+
 
 function profileScreen(props) {
   const {navigation} = props;
-  // console.log('hasil :', props);
+
   const state = useSelector(state => state);
   const [user, setUser] = React.useState('');
 
@@ -46,34 +44,65 @@ function profileScreen(props) {
   const [phone, setPhone] = React.useState(null);
   const [password, setPassword] = React.useState(null);
 
-  const [photo, setPhoto] = React.useState('');
+  const [photo, setPhoto] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  // console.log(state.userData.userData.data[0]);
-
-  const openGalery = async () => {
-    const image = await launchImageLibrary(options);
-    setPhoto(image.assets[0].fileName);
+   console.log('hasil :',state.userData.userData.data[0]);
+  // hendle refresh
+  const hendleRefresh = () => {
+    const id = state.userData.userData.data[0].id;
+     const token = state.userData.userData.token;
+    console.log("ambil id :",id);
+    axios
+      .get(`https://pijar-food-sonny.onrender.com/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(result => {
+        setUser(result.data?.data[0]);
+        // console.log('hallo', result.data?.data);
+      })
+      .catch(err => {
+        console.log('error :', err);
+      });
   };
 
-  // update photo
-  const updatePhoto = async () => {
-    console.log(state.userData.userData.token);
-    const token = state.userData.userData.token;
-    axios
-      .patch(
-        `https://pijar-food-sonny.onrender.com/users/photo`,
-        {
-          photo,
-        },
-        {
+  const handleChoosePhoto = () => {
+    launchImageLibrary({noData: true}, response => {
+      if (response) {
+        setPhoto(response);
+      }
+    });
+  };
+
+  const handleUpdateProfilePicture = () => {
+    setIsLoading(true);
+    if (photo != null) {
+      const payload = createFormData(photo);
+      const token = state.userData.userData.token;
+      axios
+        .patch('https://pijar-food-sonny.onrender.com/users/photo', payload, {
           headers: {
-            Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
           },
-        },
-      )
-      .then(res => console.log('berhasil :', res))
-      .catch(err => console.log('gagal :', err));
+        })
+        .then(response => {
+          hendleRefresh();
+          console.log('hasil:', response.data.message);
+          Alert.alert('Succes', response.data.message, [{style: 'Ok'}]);
+        })
+        .catch(error => {
+          console.log('gagal:', error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      console.log('Photo profile not found');
+      setIsLoading(false);
+    }
   };
 
   React.useEffect(res => {
@@ -81,7 +110,6 @@ function profileScreen(props) {
   }, []);
 
   const handleProfile = () => {
-    // AsyncStorage.clear();
     const token = state.userData.userData.token;
     axios
       .patch(
@@ -98,18 +126,22 @@ function profileScreen(props) {
           },
         },
       )
-      .then(res => console.log('berhasil :', res))
-      .catch(err => console.log('gagal :', err));
-    // props.navigation.navigate('Profile');
-  };
+      .then(res => {
+        console.log('berhasil :', res.data.massage);
+        Alert.alert('Succes', res.data.massage, [{style: 'Ok'}]);
+        props.navigation.navigate('Profile');
+        hendleRefresh();
 
+      })
+      .catch(err => console.log('gagal :', err));
+  };
+//  console.log(user);
   return (
     <View
       style={{
         flex: 1,
         alignItems: 'flex-start',
       }}>
-      {/* <ScrollView> */}
       {/* Start Header */}
       <View
         style={{
@@ -117,6 +149,7 @@ function profileScreen(props) {
           width: '100%',
           height: 400,
         }}>
+        {/* start edit photo Profile */}
         <View
           resizeMode="cover"
           style={{width: '100%', height: 500, backgroundColor: '#AED9B9'}}>
@@ -130,19 +163,16 @@ function profileScreen(props) {
           </Button>
 
           <View style={{marginTop: -10}}>
-            <View style={{borderRadius: 100, marginLeft: 130}}>
-              {/* <ImageBackground source={require('../assets/tahu_kupat.jpg')}
-                                style={styles.photoProfile} /> */}
-              <TouchableOpacity onPress={openGalery}>
+            <View
+              style={{
+                borderRadius: 100,
+                marginLeft: 130,
+                marginRight: 130,
+              }}>
+              <TouchableOpacity onPress={handleChoosePhoto}>
                 <Avatar.Image size={150} source={{uri: user?.photo}} />
               </TouchableOpacity>
             </View>
-            {/* <Text
-              variant="labelLarge"
-              style={styles.textWithShadow}
-              numberOfLines={1}>
-              {user.fullName}
-            </Text> */}
             <Button
               mode="contained"
               style={{
@@ -151,14 +181,12 @@ function profileScreen(props) {
                 marginLeft: 128,
                 width: 150,
               }}
-              onPress={updatePhoto}
-              // onPress={
-              //   openGalery
-              // }
-            >
-              <Text> Edit Foto </Text>
+              onPress={handleUpdateProfilePicture}>
+              <Text>{isLoading === true ? 'Loading...' : 'Edit Foto'}</Text>
             </Button>
+
           </View>
+          {/* and edit photo Profile */}
         </View>
       </View>
       {/* End Header */}
@@ -178,11 +206,8 @@ function profileScreen(props) {
         }}>
         {/* Start Navigasi Profile */}
         <View style={{marginLeft: 20, marginTop: 20}}>
-          {/* start input register */}
-          <View
-            style={styles.input}
-            //   onChangeText={value => setEmail(value)}
-          >
+          {/* start input Edit Profile */}
+          <View style={styles.input}>
             <Icon1
               name="user"
               size={25}
@@ -197,10 +222,7 @@ function profileScreen(props) {
             />
           </View>
 
-          <View
-            style={styles.input}
-            //   onChangeText={onChangeText}
-          >
+          <View style={styles.input}>
             <Icon4
               name="email-outline"
               size={25}
@@ -216,10 +238,7 @@ function profileScreen(props) {
             />
           </View>
 
-          <View
-            style={styles.input}
-            //   onChangeText={onChangeText}
-          >
+          <View style={styles.input}>
             <Icon1
               name="phone"
               size={25}
@@ -235,10 +254,7 @@ function profileScreen(props) {
             />
           </View>
 
-          <View
-            style={styles.input}
-            // onChangeText={onChangeNumber}
-          >
+          <View style={styles.input}>
             <Icon
               name="lock"
               size={25}
@@ -254,12 +270,10 @@ function profileScreen(props) {
             />
           </View>
 
-          {/* End input register */}
+          {/* End input Edit Profile */}
 
           <View
             style={{
-              // marginTop: 10,
-              // marginLeft: 1,
               flexDirection: 'row',
               alignItems: 'baseline',
             }}>
@@ -271,10 +285,7 @@ function profileScreen(props) {
                 marginLeft: 30,
                 width: 300,
               }}
-              onPress={
-                handleProfile
-                // register
-              }>
+              onPress={handleProfile}>
               <Text> Edit Profile </Text>
             </Button>
           </View>
@@ -282,7 +293,6 @@ function profileScreen(props) {
         {/* End Navigasi Profile */}
       </View>
       {/* End Content */}
-      {/* </ScrollView> */}
     </View>
   );
 }
@@ -297,15 +307,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginTop: 5,
     textAlign: 'center',
-    // marginLeft: 10,
-    // marginLeft: 90
-    // fontFamily: 'sans-serif'
   },
   textByRecipes: {
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10,
-    // fontWeight: 'bold',
     fontSize: 15,
     color: '#fff',
     marginLeft: 90,

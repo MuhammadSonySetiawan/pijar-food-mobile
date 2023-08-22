@@ -18,8 +18,8 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import { useSelector } from 'react-redux';
 
 const allUserScreen = () => {
-    const user= useSelector(state => state);
-    console.log(user)
+    const user = useSelector(state => state);
+    console.log(user);
   const onChangeSearch = query => setSearchQuery(query);
 
   const [searchQuery, setSearchQuery] = React.useState('');

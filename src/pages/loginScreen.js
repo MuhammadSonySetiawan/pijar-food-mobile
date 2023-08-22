@@ -22,7 +22,7 @@ import {setUser} from '../store/redusers/user';
 function loginScreen(props) {
   const {navigation} = props;
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -111,6 +111,13 @@ function loginScreen(props) {
       });
   };
 
+   const forgetPassword = () => {
+     Alert.alert(
+       'Warning',
+       'Sorry, Currently not open because the project is in progress',
+       [{style: 'cancel'}],
+     );
+   };
   return (
     <SafeAreaView>
       <ScrollView style={{backgroundColor: '#AED9B9', height: '100%'}}>
@@ -171,13 +178,13 @@ function loginScreen(props) {
               />
             </View>
             <View>
-              <Button onPress={() => navigation.navigate('Contoh')}>
+              <Button onPress={forgetPassword} style={{marginBottom: 50}}>
                 <Text
                   style={{
                     color: '#999999',
                     marginTop: -2,
-                    marginLeft: 200,
-                    marginBottom: 50,
+                    marginLeft: 0,
+                    // marginBottom: 50,
                   }}>
                   Forgot Password ?
                 </Text>
