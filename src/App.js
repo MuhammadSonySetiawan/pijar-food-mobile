@@ -20,6 +20,7 @@ import allUser from './pages/allUserScreen';
 import editProfile from './pages/editScreen';
 import search from './pages/searchScreen';
 import Category from './pages/categoryScreen';
+import MenuCategory from './pages/menuCategory';
 
 import { store } from './store';
 import { Provider, useDispatch, useSelector } from 'react-redux';
@@ -54,6 +55,11 @@ function App() {
           <Stack.Screen
             name="Home"
             component={Home}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="MenuCategory"
+            component={MenuCategory}
             options={{headerShown: false}}
           />
           <Stack.Screen
