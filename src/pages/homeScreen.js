@@ -52,7 +52,7 @@ function homeScreen(props) {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [recipes, setRecipes] = React.useState([]);
   const [popular, setPopuler] = React.useState([]);
- const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -174,86 +174,91 @@ function homeScreen(props) {
                 <Text variant="labelLarge" style={{fontSize: 20}}>
                   Category
                 </Text>
-                <Text
-                  variant="labelMedium"
-                  style={{fontSize: 14, color: '#6D61F2'}}
-                  onPress={category}>
-                  More info
-                </Text>
-              </View>
-              <ScrollView horizontal>
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginTop: 10,
+                <TouchableOpacity
+                  onPress={() => {
+                    // dispatch(category('Chicken'));
+                    navigation.navigate('MenuCategory');
                   }}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      dispatch(category('Chicken'));
-                      navigation.navigate('Category');
-                    }}>
-                    <Image
-                      source={require('../assets/icon-chiken.jpg')}
-                      style={{
-                        width: 80,
-                        height: 80,
-                        borderRadius: 5,
-                        marginRight: 10,
-                      }}
-                    />
-                    <Text style={{textAlign: 'center'}}>Chicken</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      dispatch(category('Snacks'));
-                      navigation.navigate('Category');
-                    }}>
-                    <Image
-                      source={require('../assets/icon-snacks.jpg')}
-                      style={{
-                        width: 80,
-                        height: 80,
-                        borderRadius: 5,
-                        marginRight: 10,
-                      }}
-                    />
-                    <Text style={{textAlign: 'center'}}>Snacks</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      dispatch(category('Ice Cream'));
-                      navigation.navigate('Category');
-                    }}>
-                    <Image
-                      source={require('../assets/icon-es.jpg')}
-                      style={{
-                        width: 80,
-                        height: 80,
-                        borderRadius: 5,
-                        marginRight: 10,
-                      }}
-                    />
-                    <Text style={{textAlign: 'center'}}>Ice Cream</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      dispatch(category('Mie'));
-                      navigation.navigate('Category');
-                    }}>
-                    <Image
-                      source={require('../assets/icon-mie.jpg')}
-                      style={{
-                        width: 80,
-                        height: 80,
-                        borderRadius: 5,
-                        marginRight: 10,
-                      }}
-                    />
-                    <Text style={{textAlign: 'center'}}>Mie</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                  <Text
+                    variant="labelMedium"
+                    style={{fontSize: 14, color: '#6D61F2'}}>
+                    More info
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              {/* <ScrollView horizontal> */}
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  marginTop: 10,
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(category('Chicken'));
+                    navigation.navigate('Category');
+                  }}>
+                  <Image
+                    source={require('../assets/icon-chiken.jpg')}
+                    style={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: 5,
+                      marginRight: 10,
+                    }}
+                  />
+                  <Text style={{textAlign: 'center'}}>Chicken</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(category('Snacks'));
+                    navigation.navigate('Category');
+                  }}>
+                  <Image
+                    source={require('../assets/icon-snacks.jpg')}
+                    style={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: 5,
+                      marginRight: 10,
+                    }}
+                  />
+                  <Text style={{textAlign: 'center'}}>Snacks</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(category('Ice Cream'));
+                    navigation.navigate('Category');
+                  }}>
+                  <Image
+                    source={require('../assets/icon-es.jpg')}
+                    style={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: 5,
+                      marginRight: 10,
+                    }}
+                  />
+                  <Text style={{textAlign: 'center'}}>Ice Cream</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(category('Mie'));
+                    navigation.navigate('Category');
+                  }}>
+                  <Image
+                    source={require('../assets/icon-mie.jpg')}
+                    style={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: 5,
+                      marginRight: 10,
+                    }}
+                  />
+                  <Text style={{textAlign: 'center'}}>Mie</Text>
+                </TouchableOpacity>
+                {/* <TouchableOpacity
                     onPress={() => {
                       dispatch(category('Vegeterian'));
                       navigation.navigate('Category');
@@ -316,9 +321,9 @@ function homeScreen(props) {
                       }}
                     />
                     <Text style={{textAlign: 'center'}}>Other Food</Text>
-                  </TouchableOpacity>
-                </View>
-              </ScrollView>
+                  </TouchableOpacity> */}
+              </View>
+              {/* </ScrollView> */}
               {/* end new recipes */}
 
               {/* start popular for you */}
