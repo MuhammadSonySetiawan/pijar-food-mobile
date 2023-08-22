@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, ImageBackground, ScrollView, StyleSheet } from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import Icon1 from 'react-native-vector-icons/dist/Feather';
 import Icon5 from 'react-native-vector-icons/dist/Ionicons';
@@ -18,7 +18,7 @@ function profileScreen(props) {
     const [user, setUser] = React.useState('');
 
     console.log(state.userData.userData.data[0]);
-    
+
     React.useEffect((res)=>{
       setUser(state.userData.userData.data[0]);
       // console.log(res)
@@ -33,36 +33,45 @@ function profileScreen(props) {
         AsyncStorage.clear();
         props.navigation.navigate('Login');
     };
+
+    const progressApp = () => {
+      Alert.alert(
+        'Warning',
+        'Sorry, Currently not open because the project is in progress',
+        [{style: 'cancel'}],
+      );
+    };
     return (
       <View
         style={{
           flex: 1,
           alignItems: 'flex-start',
+          backgroundColor: '#AED9B9',
         }}>
+        <Button onPress={() => navigation.goBack()}>
+          <Icon
+            name="arrowleft"
+            size={25}
+            color="#fff"
+            style={{marginTop: 20}}
+          />
+        </Button>
         {/* Start Header */}
         <View
           style={{
             flex: 1,
             width: '100%',
             height: 400,
+            backgroundColor: '#AED9B9',
           }}>
           <View
             resizeMode="cover"
             style={{width: '100%', height: 900, backgroundColor: '#AED9B9'}}>
-            <Button onPress={() => navigation.goBack()}>
-              <Icon
-                name="arrowleft"
-                size={25}
-                color="#fff"
-                style={{marginLeft: -355, marginTop: 20}}
-              />
-            </Button>
-
             <View style={{}}>
               <View style={{borderRadius: 100, marginLeft: 130}}>
                 {/* <ImageBackground source={require('../assets/tahu_kupat.jpg')}
                                 style={styles.photoProfile} /> */}
-                <Avatar.Image size={150} source={{uri :user?.photo}} />
+                <Avatar.Image size={150} source={{uri: user?.photo}} />
               </View>
               <Text
                 variant="labelLarge"
@@ -95,11 +104,14 @@ function profileScreen(props) {
                 marginLeft: 1,
                 flexDirection: 'row',
                 alignItems: 'baseline',
+                justifyContent: 'space-between',
               }}>
-              <Icon1 name="user" size={25} color="#637D76" />
-              <Text style={{fontSize: 18, marginLeft: 10, marginRight: 185}}>
-                Edit Profile
-              </Text>
+              <TouchableOpacity
+                style={{flexDirection: 'row'}}
+                onPress={() => navigation.navigate('EditProfile')}>
+                <Icon1 name="user" size={25} color="#637D76" />
+                <Text style={{fontSize: 18, marginLeft: 10}}>Edit Profile</Text>
+              </TouchableOpacity>
               <Button onPress={() => navigation.navigate('EditProfile')}>
                 <Icon name="right" size={25} color="#637D76" />
               </Button>
@@ -111,12 +123,15 @@ function profileScreen(props) {
                 marginLeft: 1,
                 flexDirection: 'row',
                 alignItems: 'baseline',
+                justifyContent: 'space-between',
               }}>
-              <Icon7 name="file-badge" size={25} color="#637D76" />
-              <Text style={{fontSize: 18, marginLeft: 10, marginRight: 190}}>
-                My Recipe
-              </Text>
-              <Button onPress={() => navigation.goBack()}>
+              <TouchableOpacity
+                style={{flexDirection: 'row'}}
+                onPress={progressApp}>
+                <Icon7 name="file-badge" size={25} color="#637D76" />
+                <Text style={{fontSize: 18, marginLeft: 10}}>My Recipe</Text>
+              </TouchableOpacity>
+              <Button onPress={progressApp}>
                 <Icon name="right" size={25} color="#637D76" />
               </Button>
             </View>
@@ -127,12 +142,15 @@ function profileScreen(props) {
                 marginLeft: 1,
                 flexDirection: 'row',
                 alignItems: 'baseline',
+                justifyContent: 'space-between',
               }}>
-              <Icon6 name="save-alt" size={25} color="#637D76" />
-              <Text style={{fontSize: 18, marginLeft: 10, marginRight: 165}}>
-                Saved Recipe
-              </Text>
-              <Button onPress={() => navigation.goBack()}>
+              <TouchableOpacity
+                style={{flexDirection: 'row'}}
+                onPress={progressApp}>
+                <Icon6 name="save-alt" size={25} color="#637D76" />
+                <Text style={{fontSize: 18, marginLeft: 10}}>Saved Recipe</Text>
+              </TouchableOpacity>
+              <Button onPress={progressApp}>
                 <Icon name="right" size={25} color="#637D76" />
               </Button>
             </View>
@@ -143,27 +161,33 @@ function profileScreen(props) {
                 marginLeft: 1,
                 flexDirection: 'row',
                 alignItems: 'baseline',
+                justifyContent: 'space-between',
               }}>
-              <Icon name="like2" size={25} color="#637D76" />
-              <Text style={{fontSize: 18, marginLeft: 10, marginRight: 170}}>
-                Liked Recipe
-              </Text>
-              <Button onPress={() => navigation.goBack()}>
+              <TouchableOpacity
+                style={{flexDirection: 'row'}}
+                onPress={progressApp}>
+                <Icon name="like2" size={25} color="#637D76" />
+                <Text style={{fontSize: 18, marginLeft: 10}}>Liked Recipe</Text>
+              </TouchableOpacity>
+              <Button onPress={progressApp}>
                 <Icon name="right" size={25} color="#637D76" />
               </Button>
             </View>
-
             <View
               style={{
                 marginTop: 20,
                 marginLeft: 1,
                 flexDirection: 'row',
                 alignItems: 'baseline',
+                justifyContent: 'space-between',
               }}>
-              <Icon5 name="log-out-outline" size={25} color="#637D76" />
-              <Text style={{fontSize: 18, marginLeft: 10, marginRight: 210}}>
-                Log Out
-              </Text>
+              <TouchableOpacity
+                style={{flexDirection: 'row'}}
+                onPress={hendleLogOut}>
+                <Icon5 name="log-out-outline" size={25} color="#637D76" />
+                <Text style={{fontSize: 18, marginLeft: 10}}>Log Out</Text>
+              </TouchableOpacity>
+
               <Button onPress={hendleLogOut}>
                 <Icon name="right" size={25} color="#637D76" />
               </Button>

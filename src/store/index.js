@@ -10,4 +10,5 @@ export const store = configureStore({
     recipe: recipeReducer,
     userData: userReducer,
   },
-});
+}
+);

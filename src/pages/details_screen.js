@@ -49,7 +49,7 @@ function detailScreen(props) {
     })
     .then(result => {
       console.log('hasil :', result.data.data[0].fullName);
-      setCreateBy( result.data.data[0].fullName);
+      setCreateBy(result.data.data[0].fullName);
     })
     // .then(res => console.log('hasil :', res))
     .catch(err => console.log('error :', err));
