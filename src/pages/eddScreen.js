@@ -176,8 +176,6 @@ function eddScreen(props) {
 
             <View
               style={{
-                // height: 60,
-                // margin:10,
                 marginLeft: 10,
                 marginRight: 10,
                 borderWidth: 1,
@@ -197,7 +195,20 @@ function eddScreen(props) {
                 onChangeText={value => setIngredients(value)}
               />
             </View>
-            <View style={styles.input}>
+            <Text style={{marginLeft: 15, marginBottom: 10}}>
+              Use a period (.) to separate each ingredient.
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginLeft: 10,
+                marginRight: 10,
+                borderWidth: 1,
+                padding: 10,
+                borderRadius: 10,
+                borderColor: '#637D76',
+                backgroundColor: '#fff',
+              }}>
               <Icon2
                 name="video"
                 size={32}
@@ -210,6 +221,9 @@ function eddScreen(props) {
                 onChangeText={value => setVideoLink(value)}
               />
             </View>
+            <Text style={{marginLeft: 15, marginBottom: 10}}>
+              Insert the video link.
+            </Text>
             <View>
               <DropDownPicker
                 style={styles.styleDropdown}
@@ -234,7 +248,7 @@ function eddScreen(props) {
               </Button>
             </View>
 
-            <View style={{marginLeft: 120, marginTop: 20}}>
+            <View style={{marginLeft: 120, marginTop:10}}>
               <Button
                 mode="contained"
                 // onPress={takePhotoAndUpload}
@@ -299,7 +313,9 @@ function eddScreen(props) {
 const styles = StyleSheet.create({
   input: {
     height: 60,
-    margin: 12,
+    marginBottom: 12,
+    marginLeft: 12,
+    marginRight: 12,
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
