@@ -21,6 +21,7 @@ import editProfile from './pages/editScreen';
 import search from './pages/searchScreen';
 import Category from './pages/categoryScreen';
 import MenuCategory from './pages/menuCategory';
+import MyRecipe from './pages/myRecipeScreen';
 
 import { store } from './store';
 import { Provider, useDispatch, useSelector } from 'react-redux';
@@ -95,6 +96,11 @@ function App() {
           <Stack.Screen
             name="EditProfile"
             component={editProfile}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="MyRecipe"
+            component={MyRecipe}
             options={{headerShown: false}}
           />
           <Stack.Screen

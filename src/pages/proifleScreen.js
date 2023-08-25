@@ -127,11 +127,11 @@ function profileScreen(props) {
               }}>
               <TouchableOpacity
                 style={{flexDirection: 'row'}}
-                onPress={progressApp}>
+                onPress={() => navigation.navigate('MyRecipe')}>
                 <Icon7 name="file-badge" size={25} color="#637D76" />
                 <Text style={{fontSize: 18, marginLeft: 10}}>My Recipe</Text>
               </TouchableOpacity>
-              <Button onPress={progressApp}>
+              <Button onPress={() => navigation.navigate('MyRecipe')}>
                 <Icon name="right" size={25} color="#637D76" />
               </Button>
             </View>

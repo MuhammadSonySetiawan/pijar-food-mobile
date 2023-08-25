@@ -71,19 +71,11 @@ function homeScreen(props) {
       .get('https://pijar-food-sonny.onrender.com/recipes?sortType=asc')
       .then(res => {
         setPopuler(res?.data?.data ?? []);
-        // console.log('hasil :', res.data.data);
+
       })
       .catch(err => console.log('hasil :', err))
       .finally(() => setIsLoading(false));
   }, []);
-
-  // const category = ()=>{
-  //   Alert.alert(
-  //     'Warning',
-  //     'Sorry, Currently not open because the project is in progress',
-  //     [{style: 'cancel'}],
-  //   );
-  // };
   return (
     <PaperProvider>
       <SafeAreaView style={backgroundStyle}>
@@ -97,8 +89,6 @@ function homeScreen(props) {
               paddingLeft: 20,
               paddingRight: 20,
               paddingTop: 20,
-              // borderBottomLeftRadius: 20,
-              // borderTopRightRadius: 20,
               borderBottomRightRadius: 10,
               borderBottomLeftRadius: 10,
             }}>
@@ -106,8 +96,6 @@ function homeScreen(props) {
               <Searchbar
                 style={{backgroundColor: '#EFEFEF', borderRadius: 15}}
                 placeholder="Search Pasta, Bread, etc"
-                // onChangeText={onChangeSearch}
-                // value={searchQuery}
                 onChangeText={() => navigation.navigate('search')}
               />
             </TouchableOpacity>
