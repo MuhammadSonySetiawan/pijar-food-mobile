@@ -1,8 +1,8 @@
 <img width="840" src="./screenshots/allDevice.png" border="0" alt="Landing Page" />
 <br>
 
-# Aplikasi Pijar Food FE
-The Pijar Food FE application is a tutorial application for creating various types of food, combined with video tutorials and written ingredients. This application utilizes the PostgreSQL database, Express JS for backend development, and utilizes the React Native library, React Native Navigation, and React Native Icons for frontend development.
+# Aplikasi Pijar Food Mobile
+The Pijar Food Mobile application is a tutorial application for creating various types of food, combined with video tutorials and written ingredients. This application utilizes the PostgreSQL database, Express JS for backend development, and utilizes the React Native library, React Native Navigation, and React Native Icons for frontend development.
 
 ## Instal
 The Food Recipe website can run on your local machine. Please download this repository and open it using Visual Studio Code. Then, run the terminal with the following commands.
@@ -12,7 +12,7 @@ npm i
 npm run start
 ```
 
-## Fitures Aplikasi Pijar Food FE
+## Fitures Aplikasi Pijar Food Mobile
 - Tutorials for various recipes
 - Equipped with video tutorials
 - Add recipe page
@@ -82,8 +82,8 @@ npm run start
 
 ## Related Project
 
-- [`Frontend Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar-food-mobile)
+- [`Frontend Pijar Food Mobile`](https://github.com/MuhammadSonySetiawan/pijar-food-mobile)
 
-- [`Backend Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar_food_be_rn)
+- [`Backend Pijar Food Mobile`](https://github.com/MuhammadSonySetiawan/pijar_food_be_rn)
 
-- [`Demo Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar-food-mobile/releases)
+- [`Demo Pijar Food Mobile`](https://github.com/MuhammadSonySetiawan/pijar-food-mobile/releases)
