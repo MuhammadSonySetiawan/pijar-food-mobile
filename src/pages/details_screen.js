@@ -42,7 +42,7 @@ function detailScreen(props) {
   // console.log(detailRecipe?.createby);
   const idUser = detailRecipe?.createby;
   axios
-    .get(`https://pijar-food-sonny.onrender.com/users/${idUser}`, {
+    .get(`https://pijar-food-be-one.vercel.app/users/${idUser}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

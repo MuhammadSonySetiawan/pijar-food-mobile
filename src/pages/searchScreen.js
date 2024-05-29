@@ -32,7 +32,7 @@ function profileScreen(props) {
   const hendelSearch = () => {
     setIsLoading(true);
     axios
-      .get(`https://pijar-food-sonny.onrender.com/recipes`, {
+      .get(`https://pijar-food-be-one.vercel.app/recipes`, {
         params: {
           keyword,
         },

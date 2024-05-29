@@ -54,7 +54,7 @@ function profileScreen(props) {
      const token = state.userData.userData.token;
     console.log("ambil id :",id);
     axios
-      .get(`https://pijar-food-sonny.onrender.com/users/${id}`, {
+      .get(`https://pijar-food-be-one.vercel.app/users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -82,7 +82,7 @@ function profileScreen(props) {
       const payload = createFormData(photo);
       const token = state.userData.userData.token;
       axios
-        .patch('https://pijar-food-sonny.onrender.com/users/photo', payload, {
+        .patch('https://pijar-food-be-one.vercel.app/users/photo', payload, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
@@ -113,7 +113,7 @@ function profileScreen(props) {
     const token = state.userData.userData.token;
     axios
       .patch(
-        `https://pijar-food-sonny.onrender.com/users/`,
+        `https://pijar-food-be-one.vercel.app/users/`,
         {
           email: email,
           fullName: fullname,

@@ -70,7 +70,7 @@ function eddScreen(props) {
 
   const hendleRefresh = () => {
     axios
-      .get(`https://pijar-food-sonny.onrender.com/recipes`)
+      .get(`https://pijar-food-be-one.vercel.app/recipes`)
       .then(res => {
         console.log('berhasil :', res?.data?.data ?? []);
       })
@@ -117,7 +117,7 @@ function eddScreen(props) {
       );
       axios
         .post(
-          'https://pijar-food-sonny.onrender.com/recipes', payload,
+          'https://pijar-food-be-one.vercel.app/recipes', payload,
           {
             headers: {
               'Content-Type': 'multipart/form-data',
