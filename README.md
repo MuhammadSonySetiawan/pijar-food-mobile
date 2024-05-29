@@ -84,6 +84,6 @@ npm run start
 
 - [`Frontend Pijar Food Mobile`](https://github.com/MuhammadSonySetiawan/pijar-food-mobile)
 
-- [`Backend Pijar Food Mobile`](https://github.com/MuhammadSonySetiawan/pijar_food_be_rn)
+- [`Backend Pijar Food Mobile`](https://github.com/MuhammadSonySetiawan/pijar-food-be)
 
 - [`Demo Pijar Food Mobile`](https://github.com/MuhammadSonySetiawan/pijar-food-mobile/releases)
