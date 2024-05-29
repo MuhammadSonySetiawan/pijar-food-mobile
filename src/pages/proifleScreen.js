@@ -23,7 +23,7 @@ function profileScreen(props) {
       setUser(state.userData.userData.data[0]);
       // console.log(res)
       // axios
-      //   .get(`https://pijar-food-sonny.onrender.com/users/${idUser}`)
+      //   .get(`https://pijar-food-be-one.vercel.app/users/${idUser}`)
       //   .then((result) => {
       //     setUser(result?.data?.data[0]), console.log(res);
 // }

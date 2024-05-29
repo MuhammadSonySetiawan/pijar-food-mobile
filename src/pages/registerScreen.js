@@ -79,7 +79,7 @@ function registerScreen(props) {
 
 
     axios
-      .post('https://pijar-food-sonny.onrender.com/users', {
+      .post('https://pijar-food-be-one.vercel.app/users', {
         fullName: fullname,
         email: email,
         phoneNumber: phone,

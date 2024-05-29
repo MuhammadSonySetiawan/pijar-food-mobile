@@ -58,7 +58,7 @@ function homeScreen(props) {
     setIsLoading(true);
     // New Recipe
     axios
-      .get('https://pijar-food-sonny.onrender.com/recipes')
+      .get('https://pijar-food-be-one.vercel.app/recipes')
       .then(res => {
         setRecipes(res?.data?.data ?? []);
         // console.log(res.data.data);
@@ -68,7 +68,7 @@ function homeScreen(props) {
 
     // Populer Recipe
     axios
-      .get('https://pijar-food-sonny.onrender.com/recipes?sortType=asc')
+      .get('https://pijar-food-be-one.vercel.app/recipes?sortType=asc')
       .then(res => {
         setPopuler(res?.data?.data ?? []);
 

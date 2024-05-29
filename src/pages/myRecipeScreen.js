@@ -34,7 +34,7 @@ function profileScreen(props) {
     const nama = state?.recipe?.nameCategory;
     // setNameList = nama
     axios
-      .get(`https://pijar-food-sonny.onrender.com/recipes/users/me`, {
+      .get(`https://pijar-food-be-one.vercel.app/recipes/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

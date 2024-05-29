@@ -77,7 +77,7 @@ function loginScreen(props) {
 
       // login axios
     axios
-      .post('https://pijar-food-sonny.onrender.com/auth/login', {
+      .post('https://pijar-food-be-one.vercel.app/auth/login', {
         email: email,
         password: password,
       })

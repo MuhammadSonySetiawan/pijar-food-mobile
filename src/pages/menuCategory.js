@@ -40,7 +40,7 @@ function profileScreen(props) {
     const nama = state?.recipe?.nameCategory;
     // setNameList = nama
     axios
-      .get(`https://pijar-food-sonny.onrender.com/recipes/category/${nama}`)
+      .get(`https://pijar-food-be-one.vercel.app/recipes/category/${nama}`)
       .then(res => {
         setRecipes(res?.data?.data ?? []);
         setNameList(nama);
@@ -50,7 +50,7 @@ function profileScreen(props) {
 
     // Contoh
     axios
-      .get('https://pijar-food-sonny.onrender.com/recipes')
+      .get('https://pijar-food-be-one.vercel.app/recipes')
       .then(res => {
         console.log(res?.data?.data ?? []);
         // console.log(res.data.data);
